@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { DefaultAuthor } from './@types';
 
 const prisma = new PrismaClient();
-
+//document.querySelectorAll('.pagination li:not(:first-child):not(:last-child)')
 const start = async () => {
   const res = await axios.get(
     'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all',
@@ -15,6 +15,7 @@ const start = async () => {
       },
     }
   );
+
   const dom = new JSDOM(res.data);
   const document = dom.window.document as Document;
   const containers = document.querySelectorAll(

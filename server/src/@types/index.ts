@@ -3,7 +3,7 @@ export interface Paste {
   author: string;
   title: string;
   content: string;
-  date: string;
+  date: Date;
 }
 
 export enum DefaultAuthor {
