@@ -41,7 +41,6 @@ const start = async () => {
     ).href;
 
     const id = url.substring(url.lastIndexOf('/') + 1);
-
     await prisma.pastes.upsert({
       where: {
         id,
