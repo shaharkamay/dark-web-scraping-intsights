@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
+import { HTTPStatusCode } from '../../@types/http';
 
 const errorHandler = (
   err: unknown,
-  req: Request,
+  _req: Request,
   res: Response,
   _next: NextFunction
 ) => {
   let message = 'Server error, please try again later';
-  let status = 500;
+  let status = HTTPStatusCode.InternalServerError;
   if (err instanceof Error) message = err.message;
   else if (err && typeof err === 'object') {
     if ('message' in err && 'status' in err) {
