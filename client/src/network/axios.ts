@@ -1,15 +1,11 @@
 import axios from 'axios';
+import { Paste } from '../@types';
 
 const BASE_URL = 'api/';
 
-export const getPastes = async (page: number | null = null) => {
-  const res = await axios.get(
-    `${BASE_URL}pastes${page ? `?page=${page}` : ''}`
+export const getPastes = async (page = 1, query: string | null = null) => {
+  const res = await axios.get<{ count: number; pastes: Paste[] }>(
+    `${BASE_URL}pastes?page=${page}${query ? `&query=${query}` : ''}`
   );
-  return res.data;
-};
-
-export const getNumPages = async () => {
-  const res = await axios.get(`${BASE_URL}pastes/count-pages`);
   return res.data;
 };
