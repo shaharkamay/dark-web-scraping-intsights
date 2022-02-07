@@ -1,24 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useRecoilState } from 'recoil';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import Dashboard from './pages/dashboard/Dashboard';
+import Footer from './components/footer/Footer';
+import Header from './components/header/Header';
+import { themeState } from './recoil/theme/atom';
 
 function App() {
+  const [theme] = useRecoilState(themeState);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`App ${theme}`}>
+      <BrowserRouter>
+        <Header />
+        <main>
+          <Routes>
+            {/* Home */}
+            <Route path="/" element={<Dashboard />} />
+
+            {/* Add User */}
+            {/* <Route path="/user-form" element={<UserForm />} /> */}
+
+            {/* Search */}
+            {/* <Route path="/search" element={<Search />} /> */}
+
+            {/* Generate Meal */}
+            {/* <Route path="/generate" element={<GenerateMeal />} /> */}
+          </Routes>
+        </main>
+        <Footer />
+      </BrowserRouter>
     </div>
   );
 }

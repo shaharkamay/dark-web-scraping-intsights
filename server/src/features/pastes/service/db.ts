@@ -27,4 +27,8 @@ const upsertManyPastes = async (
   return await prisma.pastes.createMany({ data: pastes, skipDuplicates: true });
 };
 
-export default { getPastes, upsertPaste, upsertManyPastes };
+const countPages = async (perPage = 10) => {
+  return Math.ceil((await prisma.pastes.count()) / perPage);
+};
+
+export default { getPastes, upsertPaste, upsertManyPastes, countPages };

@@ -12,4 +12,13 @@ const getPastes = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getPastes };
+const countPages = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const numPages = await pastesService.db.countPages();
+    res.status(HTTPStatusCode.OK).json(numPages);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { getPastes, countPages };

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "",
-    "dev": "ts-node-dev src/index1.ts",
+    "dev": "ts-node-dev src/index.ts",
     "lint": "eslint src/**/*.ts"
   },
   "repository": {
