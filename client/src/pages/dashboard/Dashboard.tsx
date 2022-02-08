@@ -19,6 +19,10 @@ const Dashboard = () => {
   const [pages, setPages] = useRecoilState(pagesState);
 
   useEffect(() => {
+    setPages((pages) => ({ ...pages, current: 1 }));
+  }, [query]);
+
+  useEffect(() => {
     setIsLoading(true);
     debouncedFetchData(
       query,
@@ -26,9 +30,10 @@ const Dashboard = () => {
       (res: { count: number; pastes: PasteWithEntities[] }) => {
         setPastes(res);
         setIsLoading(false);
+        console.log('fetched');
       }
     );
-  }, [query, pages.current]);
+  }, [pages.current, query]);
 
   useEffect(() => {
     setPages((pages) => ({
