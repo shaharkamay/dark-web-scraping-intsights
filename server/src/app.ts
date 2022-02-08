@@ -22,7 +22,7 @@ app.use(errorHandler);
 const autoInsert = async () => {
   console.log(`new pastes: ${await pastesService.insertPastes()}`);
   console.log(`scraped at: ${new Date()}`);
-  setTimeout(autoInsert, 15000);
+  setTimeout(autoInsert, 120000);
 };
 autoInsert();
 

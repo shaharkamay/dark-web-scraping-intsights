@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Paste } from '../../@types';
+import { PasteWithEntities } from '../../@types';
 
 export const pagesState = atom<{ current: number; numPages: number }>({
   key: 'pages',
@@ -14,13 +14,15 @@ export const queryState = atom({
   default: '',
 });
 
-export const pastesState = atom<{ count: number; pastes: Paste[] }>({
-  key: 'pastes',
-  default: {
-    count: 0,
-    pastes: [],
-  },
-});
+export const pastesState = atom<{ count: number; pastes: PasteWithEntities[] }>(
+  {
+    key: 'pastes',
+    default: {
+      count: 0,
+      pastes: [],
+    },
+  }
+);
 
 export const isPastesLoadingState = atom<boolean>({
   key: 'isPastesLoading',

@@ -32,6 +32,7 @@
 }
 
 .paste__props {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.3em;
@@ -47,12 +48,33 @@
   font-size: 0.75rem;
 }
 
+.paste--footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .paste__from {
   font-size: 0.75rem;
   font-style: italic;
   opacity: 0.5;
 
   :not(:last-child)::after {
+    content: ' • ';
+  }
+}
+
+.paste__tags {
+  text-align: right;
+  font-size: 0.75rem;
+  // opacity: 0.5;
+  color: var(--link-clr);
+
+  .span--entity {
+    text-decoration: underline;
+  }
+
+  :not(:last-child) i::after {
     content: ' • ';
   }
 }

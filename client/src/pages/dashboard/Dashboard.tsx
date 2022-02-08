@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import Pagination from '../../components/Pagination';
 import '../../assets/styles/dashboard.scss';
 import {
@@ -9,39 +9,48 @@ import {
 } from '../../recoil/pastes/atoms';
 import Paste from './Paste';
 import SearchBar from '../../components/SearchBar';
-import { Paste as IPaste } from '../../@types';
+import { PasteWithEntities } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
 
 const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useRecoilState(isPastesLoadingState);
+  const [pages, setPages] = useRecoilState(pagesState);
 
   useEffect(() => {
     setIsLoading(true);
-    debouncedFetchData(query, (res: { count: number; pastes: IPaste[] }) => {
-      setPastes(res);
-      setIsLoading(false);
-    });
-  }, [query]);
+    debouncedFetchData(
+      query,
+      pages.current,
+      (res: { count: number; pastes: PasteWithEntities[] }) => {
+        setPastes(res);
+        setIsLoading(false);
+      }
+    );
+  }, [query, pages.current]);
 
-  const setPages = useSetRecoilState(pagesState);
   useEffect(() => {
     setPages((pages) => ({
       ...pages,
       numPages: Math.ceil(pastes.count / 10) || 1,
     }));
   }, [pastes.count]);
-
   return (
     <div className={`dashboard container ${isLoading && 'loading'}`}>
       {isLoading && <div className={`loading`}>Loading...</div>}
       <SearchBar query={query} setQuery={setQuery} />
+      <Pagination />
       {pastes.pastes &&
         pastes.pastes.map((paste, i) => (
-          <Paste key={`paste-${i}`} paste={paste} />
+          <div key={`paste-${i}`} className={`paste-container`}>
+            <hr />
+            <Paste paste={paste} />
+            {i === pastes.pastes.length - 1 && <hr />}
+          </div>
         ))}
       <Pagination />
+      {isLoading && <div className={`loading`}>Loading...</div>}
     </div>
   );
 };

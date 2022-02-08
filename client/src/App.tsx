@@ -8,6 +8,7 @@ import { themeState } from './recoil/theme/atom';
 
 function App() {
   const [theme] = useRecoilState(themeState);
+
   return (
     <div className={`App ${theme}`}>
       <BrowserRouter>

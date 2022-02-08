@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient, PrismaPromise } from '@prisma/client';
-import { Paste } from '../../../@types';
+import { Paste, PasteWithEntities } from '../../../@types';
+import { Concept, parse } from 'concepts-parser';
 
 const prisma = new PrismaClient();
 
@@ -7,7 +8,6 @@ const getPastes = async (
   page: null | number = null,
   query: null | string = null
 ) => {
-  console.log(query);
   const params: Prisma.pastesFindManyArgs = { take: 10 };
   if (page !== null) params.skip = (page - 1) * (params.take || 10);
   if (query !== null)
@@ -34,7 +34,13 @@ const getPastes = async (
     where: params.where,
   });
   const pastes = await prisma.pastes.findMany(params);
-  return { count, pastes };
+
+  const pastesWithEntities: PasteWithEntities[] = [...pastes];
+  for (const paste of pastesWithEntities) {
+    paste.entities = extractEntities(paste.content);
+  }
+
+  return { count, pastes: pastesWithEntities };
 };
 
 const upsertPaste = async (paste: Paste) => {
@@ -50,6 +56,11 @@ const upsertManyPastes = async (
   pastes: Paste[]
 ): Promise<PrismaPromise<Prisma.BatchPayload>> => {
   return await prisma.pastes.createMany({ data: pastes, skipDuplicates: true });
+};
+
+const extractEntities = (text: string): Concept[] => {
+  const entities = parse({ text, lang: 'en' });
+  return entities;
 };
 
 export default { getPastes, upsertPaste, upsertManyPastes };
