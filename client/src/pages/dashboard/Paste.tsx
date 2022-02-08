@@ -29,7 +29,7 @@ export default function Paste({ paste }: { paste: PasteWithEntities }) {
               {paste.entities &&
                 paste.entities.map((entity, i) => (
                   <span key={`entity-${i}`}>
-                    <span className="span--entity">{`${entity.atonicValue} `}</span>
+                    <span className="span--entity">{entity.atonicValue}</span>
                     <i></i>
                   </span>
                 ))}

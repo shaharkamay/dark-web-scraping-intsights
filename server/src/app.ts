@@ -5,6 +5,8 @@ import errorHandler from './utils/middleware/error-handling';
 import { render } from './utils/helpers/server';
 import pastesService from './features/pastes/service';
 
+let countNewPastes = 0;
+
 const app = express();
 
 app.use(cors());
@@ -20,10 +22,11 @@ app.use('/api/pastes', pastesRouter);
 app.use(errorHandler);
 
 const autoInsert = async () => {
-  console.log(`new pastes: ${await pastesService.insertPastes()}`);
+  countNewPastes = (await pastesService.insertPastes()) || 0;
   console.log(`scraped at: ${new Date()}`);
   setTimeout(autoInsert, 120000);
 };
 autoInsert();
 
 export default app;
+export { countNewPastes };

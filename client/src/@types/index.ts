@@ -6,16 +6,22 @@ export interface Paste {
   date: Date;
 }
 
+export interface PasteWithEntities extends Paste {
+  entities?: Concept[];
+}
+
+export interface PastesResponse {
+  count: number;
+  pastes: PasteWithEntities[];
+  page: number;
+}
+
 interface Concept {
   value?: string;
   index: number;
   lang: string;
   atonicValue: string;
   countWords: number;
-}
-
-export interface PasteWithEntities extends Paste {
-  entities?: Concept[];
 }
 
 export interface Entity {

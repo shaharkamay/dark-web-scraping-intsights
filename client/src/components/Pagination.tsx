@@ -1,18 +1,23 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { pagesState } from '../recoil/pastes/atoms';
+// import { useRecoilState } from 'recoil';
+import { PastesResponse } from '../@types';
+// import { pagesState } from '../recoil/pastes/atoms';
 
-export default function Pagination() {
-  const [pages, setPages] = useRecoilState(pagesState);
-
+export default function Pagination({
+  pastes,
+  setPastes,
+}: {
+  pastes: PastesResponse;
+  setPastes: (pastes: PastesResponse) => void;
+}) {
   return (
     <div className={`pagination`}>
-      {[...Array(pages.numPages)].map((_, i) => (
+      {[...Array(Math.ceil(pastes.count / 10))].map((_, i) => (
         <button
           className={`default--button ${
-            pages.current === i + 1 ? 'active-btn' : ''
+            pastes.page === i + 1 ? 'active-btn' : ''
           }`}
-          onClick={() => setPages((pages) => ({ ...pages, current: i + 1 }))}
+          onClick={() => setPastes({ ...pastes, page: i + 1 })}
           key={`page-btn-${i}`}
         >
           {i + 1}

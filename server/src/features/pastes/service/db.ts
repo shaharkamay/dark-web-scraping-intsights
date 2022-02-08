@@ -40,7 +40,7 @@ const getPastes = async (
     paste.entities = extractEntities(paste.content);
   }
 
-  return { count, pastes: pastesWithEntities };
+  return { count, pastes: pastesWithEntities, page: page || 1 };
 };
 
 const upsertPaste = async (paste: Paste) => {
