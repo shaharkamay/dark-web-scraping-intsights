@@ -7,6 +7,7 @@ import app from './app';
 // export { handler };
 
 (() => {
+  console.log(config.db.url);
   app.listen(config.port, () => {
     console.log(`app started on port ${config.port}`);
   });

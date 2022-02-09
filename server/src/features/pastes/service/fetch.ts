@@ -11,7 +11,7 @@ const fetchDom = async (page = 1) => {
     `http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all?page=${page}`,
     {
       proxy: {
-        host: 'localhost',
+        host: 'tor-proxy',
         port: 8118,
       },
     }

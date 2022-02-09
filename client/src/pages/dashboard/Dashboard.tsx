@@ -8,7 +8,7 @@ import SearchBar from '../../components/SearchBar';
 import { PastesResponse } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
 
-const source = new EventSource('http://localhost:8080/api/pastes/sse');
+const source = new EventSource('http://localhost:8081/api/pastes/sse');
 
 const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);

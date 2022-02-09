@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    container_name: pastes
+    restart: always
+    build: .
+    ports:
+      - '8081:8081'
+    networks: #here
+      - my-network
+  # mongo:
+  #   container_name: pastes-mongo
+  #   image: mongo
+  #   ports:
+  #   - '27017:27017'
+  #   networks: #here
+  #       - my-network
+  darknet:
+    image: dperson/torproxy
+    container_name: tor-proxy
+    ports:
+      - '8118:8118'
+    expose:
+      - 8118
+networks: #here
+  my-network:
+    driver: bridge

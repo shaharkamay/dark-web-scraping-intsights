@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "",
+    "start": "node build/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "build": "tsc",
+    "test": "ts-node-dev src/utils/helpers/analysis/NER/index.ts"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "jsdom": "^19.0.0",
+    "ner": "^1.0.0",
     "ts-node-dev": "^1.1.8"
   }
 }

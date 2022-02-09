@@ -15,4 +15,4 @@ const debouncedFetchData = debounce((query, page, cb) => {
   fetchPastes(query, page, cb);
 }, 700);
 
-export { fetchPastes, debouncedFetchData };
+export { debouncedFetchData };
