@@ -1,0 +1,16 @@
+.keywords {
+  text-align: center;
+
+  .add-keyword {
+    input {
+      height: 3em;
+      padding: 1em;
+    }
+  }
+}
+
+.add-keyword-form {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}

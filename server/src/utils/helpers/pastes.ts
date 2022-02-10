@@ -24,17 +24,17 @@ const isDefaultAuthor = (author: string): boolean => {
   return false;
 };
 
-interface EntityWithValues extends Omit<Entity, 'id'> {
-  values: string[];
-}
+// interface EntityWithValues extends Omit<Entity, 'id'> {
+//   values: string[];
+// }
 
 const convertEntitiesToDb = (
   entities: Entities,
   pasteId: string
-): EntityWithValues[] => {
-  const dbEntities: EntityWithValues[] = [];
+): Omit<Entity, 'id'>[] => {
+  const dbEntities: Omit<Entity, 'id'>[] = [];
   for (const name in entities) {
-    dbEntities.push({ name, pasteId, values: entities[name] });
+    dbEntities.push({ name, pasteId, values: entities[name].join(',') });
   }
   return dbEntities;
 };

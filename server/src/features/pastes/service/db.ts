@@ -31,6 +31,9 @@ const getPastes = async (
         },
       ],
     };
+  params.include = {
+    entities: true,
+  };
   const count = await prisma.paste.count({
     where: params.where,
   });
@@ -54,31 +57,54 @@ const upsertPaste = async (paste: Paste) => {
 };
 
 const upsertManyPastes = async (pastes: Paste[]) => {
-  // return await prisma.paste.createMany({ data: [...pas], skipDuplicates: true });
+  const pastesWithoutEntities: Omit<Paste, 'entities'>[] = [];
   for (const { entities, ...paste } of pastes) {
+    pastesWithoutEntities.push(paste);
     if (entities) {
       const dbEntities = convertEntitiesToDb(entities, paste.id);
-      for (const { values, ...entity } of dbEntities) {
-        await prisma.entity.create({ data: entity });
-        console.log(values);
-      }
-      // await prisma.entity.createMany({data: [...dbEntities], skipDuplicates: true});
+
+      await prisma.entity.createMany({
+        data: dbEntities,
+        skipDuplicates: true,
+      });
     }
-    console.log(paste);
-    await prisma.paste.upsert({
-      where: { id: paste.id },
-      update: {},
-      create: {
-        ...paste,
-      },
-    });
   }
-  return true;
+  return await prisma.paste.createMany({
+    data: pastesWithoutEntities,
+    skipDuplicates: true,
+  });
 };
 
-// const extractEntities = (text: string): Concept[] => {
-//   const entities = parse({ text, lang: 'en' });
-//   return entities;
-// };
+const searchMultipleQueries = async (
+  queries: string[],
+  page: number | null = null
+) => {
+  const params: Prisma.PasteFindManyArgs = { take: 10 };
+  if (page !== null) params.skip = (page - 1) * (params.take || 10);
+  if (queries.length)
+    params.where = {
+      OR: queries.map((query) => {
+        return {
+          content: {
+            contains: query,
+          },
+        };
+      }),
+    };
+  params.include = {
+    entities: true,
+  };
+  const count = await prisma.paste.count({
+    where: params.where,
+  });
+  const pastes = await prisma.paste.findMany(params);
 
-export default { getPastes, upsertPaste, upsertManyPastes };
+  return { count, pastes, page: page || 1 };
+};
+
+export default {
+  getPastes,
+  upsertPaste,
+  upsertManyPastes,
+  searchMultipleQueries,
+};

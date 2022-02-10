@@ -1,8 +1,8 @@
 import express from 'express';
-import { getPastes } from './controller';
+import { sseHandler } from './controller';
 
 const router = express.Router();
 
-router.get('/', getPastes);
+router.get('/', sseHandler);
 
 export default router;

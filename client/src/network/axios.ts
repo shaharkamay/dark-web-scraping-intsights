@@ -17,3 +17,12 @@ export const getPastes = async (page = 1, query: string | null = null) => {
     return { count: 0, pastes: [], page: 1 };
   }
 };
+
+export const sendKeyword = async (keyword: string) => {
+  try {
+    const res = await axios.post(`${BASE_URL}keywords`, { keyword });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -1,8 +1,8 @@
 import express from 'express';
-import { getPastes } from './controller';
+import { addKeyword } from './controller';
 
 const router = express.Router();
 
-router.get('/', getPastes);
+router.post('/', addKeyword);
 
 export default router;

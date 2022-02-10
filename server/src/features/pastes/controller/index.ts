@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTPStatusCode } from '../../../@types/http';
-import { countNewPastes } from '../../../app';
+// import { countNewPastes } from '../../../utils/globals';
 import pastesService from '../service';
 
 const getPastes = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,29 +14,32 @@ const getPastes = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getPastesSse = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    res.writeHead(200, {
-      'Content-Type': 'text/event-stream',
-      Connection: 'Keep-Alive',
-    });
+// const getPastesSse = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     res.writeHead(200, {
+//       'Content-Type': 'text/event-stream',
+//       Connection: 'Keep-Alive',
+//     });
 
-    const sendPastes = async () => {
-      if (countNewPastes) {
-        const pastes = await pastesService.db.getPastes();
-        res.write(`data: ${JSON.stringify(pastes)} \n\n`);
-      }
-    };
-    setInterval(() => {
-      sendPastes();
-    }, 60000);
-  } catch (error) {
-    next(error);
-  }
+//     const sendPastes = async () => {
+//       if (countNewPastes.count) {
+//         const pastes = await pastesService.db.getPastes();
+//         res.write(`data: ${JSON.stringify(pastes)} \n\n`);
+//       }
+//     };
+//     setInterval(() => {
+//       sendPastes();
+//     }, 60000);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export {
+  getPastes,
+  /*getPastesSse*/
 };
-
-export { getPastes, getPastesSse };

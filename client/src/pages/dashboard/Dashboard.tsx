@@ -4,17 +4,19 @@ import Pagination from '../../components/Pagination';
 import '../../assets/styles/dashboard.scss';
 import { isPastesLoadingState, pastesState } from '../../recoil/pastes/atoms';
 import Paste from './Paste';
-import SearchBar from '../../components/SearchBar';
 import { PastesResponse } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
 import { BASE_URL } from '../../network/axios';
+import TextInput from '../../components/TextInput';
+import { alertsState } from '../../recoil/alerts/atoms';
 
-const source = new EventSource(BASE_URL + 'pastes/sse');
+const source = new EventSource(BASE_URL + 'sse');
 
 const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useRecoilState(isPastesLoadingState);
+  const [, setAlerts] = useRecoilState(alertsState);
 
   useEffect(() => {
     source.onopen = () => {
@@ -22,8 +24,15 @@ const Dashboard = () => {
     };
     source.onmessage = (event) => {
       if (query === '') {
-        const eventPastes = JSON.parse(event.data);
-        setPastes(eventPastes);
+        const data = JSON.parse(event.data);
+        if ('pastes' in data) {
+          setPastes(data.pastes);
+          console.log(data);
+        } else if ('alerts' in data) {
+          setAlerts(data.alerts);
+          console.log(data);
+        }
+        console.log(event);
       }
     };
 
@@ -42,11 +51,11 @@ const Dashboard = () => {
   return (
     <div className={`dashboard container ${isLoading && 'loading'}`}>
       {isLoading && <div className={`loading`}>Loading...</div>}
-      <SearchBar query={query} setQuery={setQuery} />
+      <TextInput inputState={query} setInputState={setQuery} name="search" />
       <Pagination pastes={pastes} setPastes={setPastes} />
       {pastes.pastes &&
         pastes.pastes.map((paste, i) => (
-          <div key={`paste-${i}`} className={`paste-container`}>
+          <div key={paste.id} className={`paste-container`}>
             <hr />
             <Paste paste={paste} />
             {i === pastes.pastes.length - 1 && <hr />}

@@ -24,17 +24,19 @@ model Paste {
 model Entity {
   id Int @id @default(autoincrement()) @unique
   name String @db.VarChar(45)
-  values EntityValue[]
+  values String @db.VarChar(225)
   paste Paste @relation(fields: [pasteId], references: [id])
   pasteId String
+  
+  @@unique([name, pasteId])
 }
 
-model EntityValue {
-  id Int @id @default(autoincrement()) @unique
-  value String @db.VarChar(45)
-  entity Entity @relation(fields: [entityId], references: [id])
-  entityId Int
-}
+// model EntityValue {
+//   id Int @id @default(autoincrement()) @unique
+//   value String @db.VarChar(45)
+//   entity Entity @relation(fields: [entityId], references: [id])
+//   entityId Int
+// }
 
 // model Tag {
 //   id Int @id @default(autoincrement()) @unique

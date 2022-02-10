@@ -1,10 +1,10 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import Dashboard from './pages/dashboard/Dashboard';
+import { Routes, BrowserRouter } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import { themeState } from './recoil/theme/atom';
+import { routes } from './utils/globals';
 
 function App() {
   const [theme] = useRecoilState(themeState);
@@ -14,19 +14,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <main>
-          <Routes>
-            {/* Home */}
-            <Route path="/" element={<Dashboard />} />
-
-            {/* Add User */}
-            {/* <Route path="/user-form" element={<UserForm />} /> */}
-
-            {/* Search */}
-            {/* <Route path="/search" element={<Search />} /> */}
-
-            {/* Generate Meal */}
-            {/* <Route path="/generate" element={<GenerateMeal />} /> */}
-          </Routes>
+          <Routes>{routes && routes.map((route) => route.element)}</Routes>
         </main>
         <Footer />
       </BrowserRouter>

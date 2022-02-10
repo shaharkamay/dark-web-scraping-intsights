@@ -1,8 +1,8 @@
 import React from 'react';
-import { PasteWithEntities } from '../../@types';
+import { Paste as IPaste } from '../../@types';
 import { getHslByAnalyzedWord } from '../../utils/pastes/helpers';
 
-export default function Paste({ paste }: { paste: PasteWithEntities }) {
+export default function Paste({ paste }: { paste: IPaste }) {
   return (
     <div>
       <div className="paste">
@@ -27,9 +27,9 @@ export default function Paste({ paste }: { paste: PasteWithEntities }) {
             </div>
             <div className="paste__tags">
               {paste.entities &&
-                paste.entities.map((entity, i) => (
-                  <span key={`entity-${i}`}>
-                    <span className="span--entity">{entity.atonicValue}</span>
+                paste.entities.map((entity) => (
+                  <span key={entity.name}>
+                    <span className="span--entity">{entity.name}</span>
                     <i></i>
                   </span>
                 ))}
