@@ -30,3 +30,5 @@ export interface Entity {
   type: string;
   text: string;
 }
+
+export type HslString = `hsl(${number}, ${number}%, ${number}%)`;

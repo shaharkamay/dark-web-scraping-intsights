@@ -1,3 +1,5 @@
+import { Entity } from '@prisma/client';
+import { Entities } from 'ner';
 import { DefaultAuthor } from '../../@types';
 
 const cropAuthorAndDate = (
@@ -22,4 +24,28 @@ const isDefaultAuthor = (author: string): boolean => {
   return false;
 };
 
-export { cropAuthorAndDate, isDefaultAuthor };
+interface EntityWithValues extends Omit<Entity, 'id'> {
+  values: string[];
+}
+
+const convertEntitiesToDb = (
+  entities: Entities,
+  pasteId: string
+): EntityWithValues[] => {
+  const dbEntities: EntityWithValues[] = [];
+  for (const name in entities) {
+    dbEntities.push({ name, pasteId, values: entities[name] });
+  }
+  return dbEntities;
+};
+
+// {
+//   return Object.keys(entities || {}).map((key) => {
+//     return {
+//       where: { id: entities[key] },
+//       create: { name: key, value: entities[key] },
+//     };
+//   }),
+// }
+
+export { cropAuthorAndDate, isDefaultAuthor, convertEntitiesToDb };

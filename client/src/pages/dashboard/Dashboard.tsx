@@ -7,8 +7,9 @@ import Paste from './Paste';
 import SearchBar from '../../components/SearchBar';
 import { PastesResponse } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
+import { BASE_URL } from '../../network/axios';
 
-const source = new EventSource('http://localhost:8081/api/pastes/sse');
+const source = new EventSource(BASE_URL + 'pastes/sse');
 
 const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);
@@ -16,6 +17,9 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useRecoilState(isPastesLoadingState);
 
   useEffect(() => {
+    source.onopen = () => {
+      console.log('Connected to SSE');
+    };
     source.onmessage = (event) => {
       if (query === '') {
         const eventPastes = JSON.parse(event.data);

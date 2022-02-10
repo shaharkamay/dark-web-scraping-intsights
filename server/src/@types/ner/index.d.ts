@@ -5,9 +5,10 @@ declare module 'ner' {
   }
 
   export interface NERResponse {
-    entities: {
-      [key: string]: string[] | undefined;
-    };
+    entities: Entities;
+  }
+  export interface Entities {
+    [key: string]: string[];
   }
 
   type Callback = (err: Error, res: NERResponse) => void;

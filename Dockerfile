@@ -1,16 +1,17 @@
 #Add Node
 FROM node:14
-#run Build
-# COPY ./client /client
-# RUN cd /client
-# WORKDIR /client
-# RUN npm i
-# RUN npm run build
-# RUN cd ../
+
+# run Build
+COPY ./client /client
+RUN cd /client
+WORKDIR /client
+RUN npm i
+RUN npm run build
+RUN cd ../
 
 #copy client/build to server
 # COPY ./client/build server/client
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
 #run server
 COPY ./server /server

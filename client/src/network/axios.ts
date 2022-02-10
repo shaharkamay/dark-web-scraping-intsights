@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { PastesResponse } from '../@types';
 
-const BASE_URL = 'api/';
+export const BASE_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:8081/api/'
+    : 'api/';
 
 export const getPastes = async (page = 1, query: string | null = null) => {
   try {

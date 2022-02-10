@@ -2,13 +2,20 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
-  port: process.env.PORT || 8081,
+  server: {
+    port: process.env.PORT || 8081,
+  },
   db: {
     url: process.env.DATABASE_URL,
+    shadowUrl: process.env.SHADOW_DATABASE_URL,
   },
   NER_SERVER: {
-    host: 'localhost',
-    port: 8080,
+    host: process.env.NER_SERVER_HOST || 'localhost',
+    port: Number(process.env.NER_SERVER_PORT) || 8080,
+  },
+  torProxy: {
+    host: process.env.TOR_PROXY_HOST || 'localhost',
+    port: Number(process.env.TOR_PROXY_PORT) || 8118,
   },
 };
 

@@ -1,4 +1,5 @@
-import { Concept } from 'concepts-parser';
+// import { Concept } from 'concepts-parser';
+import { Entities } from 'ner';
 
 export interface Paste {
   id: string;
@@ -6,21 +7,12 @@ export interface Paste {
   title: string;
   content: string;
   date: Date;
+  entities?: Entities;
 }
 
-// export interface Concept {
-//   _fields: {
-//     value: string;
-//     index: number;
-//     lang: string;
-//     atonicValue: string;
-//     countWords: number;
-//   };
+// export interface PasteWithEntities extends Paste {
+//   entities?: Concept[];
 // }
-
-export interface PasteWithEntities extends Paste {
-  entities?: Concept[];
-}
 
 export enum DefaultAuthor {
   Anonymous = 'Anonymous',

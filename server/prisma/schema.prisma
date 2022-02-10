@@ -1,18 +1,43 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "referentialIntegrity"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
-model pastes { 
-  id      String   @id @unique(map: "id_UNIQUE") @db.VarChar(45) 
+model Paste {
+  id      String   @id @unique(map: "id_UNIQUE") @db.VarChar(45)
   author  String   @db.VarChar(225)
   title   String   @db.VarChar(225)
-  content String   @db.VarChar(768) @unique(map: "content_UNIQUE")
+  content String   @unique(map: "content_UNIQUE") @db.VarChar(768)
   date    DateTime @db.DateTime(0)
+  entities Entity[]
+  // tags Tag[]
 }
+
+model Entity {
+  id Int @id @default(autoincrement()) @unique
+  name String @db.VarChar(45)
+  values EntityValue[]
+  paste Paste @relation(fields: [pasteId], references: [id])
+  pasteId String
+}
+
+model EntityValue {
+  id Int @id @default(autoincrement()) @unique
+  value String @db.VarChar(45)
+  entity Entity @relation(fields: [entityId], references: [id])
+  entityId Int
+}
+
+// model Tag {
+//   id Int @id @default(autoincrement()) @unique
+//   name String @db.VarChar(45) @unique
+//   pastes Paste[]
+// }

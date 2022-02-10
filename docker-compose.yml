@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   app:
     container_name: pastes
@@ -6,15 +6,19 @@ services:
     build: .
     ports:
       - '8081:8081'
-    networks: #here
-      - my-network
-  # mongo:
-  #   container_name: pastes-mongo
-  #   image: mongo
-  #   ports:
-  #   - '27017:27017'
-  #   networks: #here
-  #       - my-network
+    networks:
+      - frontend
+      - backend
+
+  ner:
+    container_name: ner
+    build: ./server/src/utils/helpers/analysis/NER
+    ports:
+      - '8080:8080'
+    networks:
+      - frontend
+      - backend
+
   darknet:
     image: dperson/torproxy
     container_name: tor-proxy
@@ -22,6 +26,12 @@ services:
       - '8118:8118'
     expose:
       - 8118
-networks: #here
-  my-network:
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
     driver: bridge
