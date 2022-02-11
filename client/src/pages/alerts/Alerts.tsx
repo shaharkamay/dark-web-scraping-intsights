@@ -1,21 +1,27 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
+import React, { useEffect, useState } from 'react';
+import { Alert as IAlert } from '../../@types';
 import '../../assets/styles/alerts.scss';
-// import Pagination from '../../components/Pagination';
-import { alertsState } from '../../recoil/alerts/atoms';
-import Paste from '../dashboard/Paste';
+import { getAlerts } from '../../network/axios';
+import Alert from './Alert';
 
 const Alerts = () => {
-  const [alerts] = useRecoilState(alertsState);
+  const [alerts, setAlerts] = useState<IAlert[]>([]);
+
+  useEffect(() => {
+    getAlerts().then((res) => {
+      if (res) setAlerts(res);
+    });
+  }, []);
+
   return (
     <div className={`dashboard container`}>
       {/* <Pagination pastes={alerts} setPastes={setPastes} /> */}
       {alerts &&
-        alerts.pastes.map((alert, i) => (
+        alerts.map((alert, i) => (
           <div key={alert.id} className={`paste-container`}>
             <hr />
-            <Paste paste={alert} />
-            {i === alerts.pastes.length - 1 && <hr />}
+            <Alert alert={alert} />
+            {i === alerts.length - 1 && <hr />}
           </div>
         ))}
     </div>

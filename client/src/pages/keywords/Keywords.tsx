@@ -1,20 +1,34 @@
-import React, { FormEventHandler, useState } from 'react';
+import React, { FormEventHandler, useEffect, useState } from 'react';
 import TextInput from '../../components/TextInput';
 import '../../assets/styles/keywords.scss';
-import { useRecoilState } from 'recoil';
-import { keywordsState } from '../../recoil/keywords/atoms';
-import { sendKeyword } from '../../network/axios';
+import { deleteKeyword, getKeywords, sendKeyword } from '../../network/axios';
+import { Keyword } from '../../@types';
 
 const Keywords = () => {
   const [keyword, setKeyword] = useState('');
-  const [keywords, setKeywords] = useRecoilState(keywordsState);
+  const [keywords, setKeywords] = useState<Keyword[]>([]);
+
+  useEffect(() => {
+    getKeywords().then((res) => {
+      if (res) setKeywords(res);
+    });
+  }, []);
+
   const handleAddKeyword: FormEventHandler = async (e) => {
     e.preventDefault();
-    if (!keywords.includes(keyword)) {
-      setKeywords((keywords) => [...keywords, keyword]);
+    if (keywords.findIndex((k) => k.name === keyword) === -1) {
+      // setKeywords((keywords) => [...keywords, keyword]);
       await sendKeyword(keyword);
+      getKeywords().then((res) => {
+        if (res) setKeywords(res);
+      });
     }
     setKeyword('');
+  };
+  const handleDeleteKeyword = async (keyword: string) => {
+    await deleteKeyword(keyword);
+    const res = await getKeywords();
+    if (res) setKeywords(res);
   };
   return (
     <div className="container keywords">
@@ -33,7 +47,16 @@ const Keywords = () => {
         </button>
       </form>
       {keywords.map((keyword) => (
-        <div key={keyword}>{keyword}</div>
+        <div key={keyword.name}>
+          {keyword.name}{' '}
+          <button
+            onClick={async () => {
+              handleDeleteKeyword(keyword.name);
+            }}
+          >
+            Delete
+          </button>
+        </div>
       ))}
     </div>
   );

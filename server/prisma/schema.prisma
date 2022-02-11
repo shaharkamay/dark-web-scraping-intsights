@@ -5,30 +5,48 @@ generator client {
 }
 
 datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model Paste {
-  id      String   @id @unique(map: "id_UNIQUE") @db.VarChar(45)
-  author  String   @db.VarChar(225)
-  title   String   @db.VarChar(225)
-  content String   @unique(map: "content_UNIQUE") @db.VarChar(768)
-  date    DateTime @db.DateTime(0)
+  id       String   @id @unique(map: "id_UNIQUE") @db.VarChar(45)
+  author   String   @db.VarChar(225)
+  title    String   @db.VarChar(225)
+  content  String   @unique(map: "content_UNIQUE") @db.VarChar(768)
+  date     DateTime @db.DateTime(0)
   entities Entity[]
+  alerts   Alert[]
   // tags Tag[]
 }
 
 model Entity {
-  id Int @id @default(autoincrement()) @unique
-  name String @db.VarChar(45)
-  values String @db.VarChar(225)
-  paste Paste @relation(fields: [pasteId], references: [id])
+  id      Int    @id @unique @default(autoincrement())
+  name    String @db.VarChar(45)
+  values  String @db.VarChar(225)
+  paste   Paste  @relation(fields: [pasteId], references: [id])
   pasteId String
-  
+
   @@unique([name, pasteId])
+}
+
+model Keyword {
+  id      Int    @id @unique @default(autoincrement())
+  name    String @db.VarChar(45)
+  alert   Alert  @relation(fields: [alertId], references: [id])
+  alertId Int
+
+  @@unique([name, alertId])
+}
+
+model Alert {
+  id      Int      @id @unique @default(autoincrement())
+  name    String   @db.VarChar(45)
+  keyword Keyword?
+  Paste   Paste    @relation(fields: [pasteId], references: [id])
+  pasteId String
 }
 
 // model EntityValue {

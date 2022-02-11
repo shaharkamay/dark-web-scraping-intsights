@@ -75,12 +75,8 @@ const upsertManyPastes = async (pastes: Paste[]) => {
   });
 };
 
-const searchMultipleQueries = async (
-  queries: string[],
-  page: number | null = null
-) => {
-  const params: Prisma.PasteFindManyArgs = { take: 10 };
-  if (page !== null) params.skip = (page - 1) * (params.take || 10);
+const searchMultipleQueries = async (queries: string[]) => {
+  const params: Prisma.PasteFindManyArgs = {};
   if (queries.length)
     params.where = {
       OR: queries.map((query) => {
@@ -99,7 +95,7 @@ const searchMultipleQueries = async (
   });
   const pastes = await prisma.paste.findMany(params);
 
-  return { count, pastes, page: page || 1 };
+  return { count, pastes, page: 1 };
 };
 
 export default {

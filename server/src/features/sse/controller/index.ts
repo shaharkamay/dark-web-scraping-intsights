@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import config from '../../../utils/config';
-import {
-  alerts,
-  countNewPastes,
-  keywords,
-  keywordsLengthState,
-} from '../../../utils/globals';
+import { countNewPastes } from '../../../utils/globals';
 import pastesService from '../../pastes/service';
 
 const sseHandler = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,18 +16,18 @@ const sseHandler = async (req: Request, res: Response, next: NextFunction) => {
       console.log('sent pastes through sse');
     };
 
-    const sendAlerts = () => {
-      res.write(`data: ${JSON.stringify({ alerts: alerts.pastes })} \n\n`);
-      console.log('sent alerts through sse');
-    };
+    // const sendAlerts = () => {
+    //   res.write(`data: ${JSON.stringify({ alerts: alerts.pastes })} \n\n`);
+    //   console.log('sent alerts through sse');
+    // };
 
     setInterval(() => {
       if (countNewPastes.count) {
         sendPastes();
       }
-      if (keywords.length !== keywordsLengthState) {
-        sendAlerts();
-      }
+      // if (keywords.length !== keywordsLengthState) {
+      //   sendAlerts();
+      // }
     }, config.server.scrapeTime / 2);
   } catch (error) {
     next(error);

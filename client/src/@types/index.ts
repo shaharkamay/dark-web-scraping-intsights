@@ -47,4 +47,16 @@ export interface IRoute {
   element: ReactElement | null;
 }
 
+export interface Keyword {
+  id: number;
+  name: string;
+  alertId: number;
+}
+
+export interface Alert {
+  id: number;
+  name: string;
+  keyword?: Keyword;
+}
+
 export type HslString = `hsl(${number}, ${number}%, ${number}%)`;

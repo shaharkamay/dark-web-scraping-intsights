@@ -1,8 +1,10 @@
 import express from 'express';
-import { addKeyword } from './controller';
+import { getKeywords, addKeyword, deleteKeyword } from './controller';
 
 const router = express.Router();
 
+router.get('/', getKeywords);
 router.post('/', addKeyword);
+router.delete('/', deleteKeyword);
 
 export default router;
