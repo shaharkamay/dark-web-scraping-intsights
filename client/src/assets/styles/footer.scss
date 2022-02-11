@@ -1,0 +1,36 @@
+/* 
+footer
+*/
+footer {
+  font-family: var(--font-text);
+  background-color: var(--clr-accent);
+  padding: 1em;
+  color: var(--clr-light);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.copyright {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+}
+.copyright-link {
+  color: inherit;
+  display: flex;
+  gap: 0.5em;
+  text-decoration: underline;
+  align-items: center;
+}
+.copyright-link:hover,
+.copyright-link:focus {
+  opacity: 0.75;
+}
+
+.github-img {
+  width: 1.5em;
+  filter: var(--inverted);
+}
