@@ -4,7 +4,7 @@ import keywordService from '../service';
 
 const getKeywords = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const keywords = await keywordService.getKeywords();
+    const keywords = await keywordService.getKeywordsGroupByName();
     res.status(HTTPStatusCode.OK).json(keywords);
   } catch (error) {
     next(error);

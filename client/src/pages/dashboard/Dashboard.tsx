@@ -8,7 +8,7 @@ import { PastesResponse } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
 import { BASE_URL } from '../../network/axios';
 import TextInput from '../../components/TextInput';
-import { alertsState } from '../../recoil/alerts/atoms';
+// import { alertsState } from '../../recoil/alerts/atoms';
 
 const source = new EventSource(BASE_URL + 'sse');
 
@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useRecoilState(isPastesLoadingState);
-  const [, setAlerts] = useRecoilState(alertsState);
+  // const [, setAlerts] = useRecoilState(alertsState);
 
   useEffect(() => {
     source.onopen = () => {
@@ -27,9 +27,6 @@ const Dashboard = () => {
         const data = JSON.parse(event.data);
         if ('pastes' in data) {
           setPastes(data.pastes);
-          console.log(data);
-        } else if ('alerts' in data) {
-          setAlerts(data.alerts);
           console.log(data);
         }
         console.log(event);

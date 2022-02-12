@@ -1,11 +1,6 @@
 import { atom } from 'recoil';
-import { PastesResponse } from '../../@types';
 
-export const alertsState = atom<PastesResponse>({
+export const alertsNotificationState = atom<Date>({
   key: 'alerts',
-  default: {
-    count: 0,
-    pastes: [],
-    page: 1,
-  },
+  default: new Date(),
 });

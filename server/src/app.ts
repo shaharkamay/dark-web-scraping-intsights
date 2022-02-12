@@ -7,6 +7,8 @@ import sseRouter from './features/sse/route';
 import errorHandler from './utils/middleware/error-handling';
 import { render } from './utils/helpers/server';
 import pastesService from './features/pastes/service';
+import keywordsService from './features/keywords/service';
+// import alertsService from './features/alerts/service';
 import { countNewPastes } from './utils/globals';
 import config from './utils/config';
 
@@ -30,7 +32,16 @@ app.use('/api/sse', sseRouter);
 app.use(errorHandler);
 
 const autoInsert = async () => {
+  // console.log('before before');
+  // const date = new Date();
   countNewPastes.count = (await pastesService.insertPastes()) || 0;
+  // console.log('new pastes: ' + countNewPastes.count);
+  await keywordsService.upsertKeywords();
+  // console.log('after');
+  // const alerts = await alertsService.getAlertsAfterDate(date);
+  // console.log(alerts);
+  // console.log('new alerts: ' + alerts.length);
+  // console.log(countNewAlerts);
   console.log(`scraped at: ${new Date()}`);
   setTimeout(autoInsert, config.server.scrapeTime);
 };

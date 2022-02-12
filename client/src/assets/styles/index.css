@@ -23,6 +23,8 @@ p - 16px (footer)
   --foreground: var(--clr-dark);
   --background: var(--clr-light);
 
+  --clr-notification: #b4c8ff;
+
   --theme-icon: '☀';
 
   --inverted: none;
@@ -70,6 +72,8 @@ img {
 
   --foreground: var(--clr-light);
   --background: var(--clr-dark);
+
+  --clr-notification: #152c6d;
 
   --theme-icon: '🌛︎';
 
@@ -127,6 +131,8 @@ main {
 
     --foreground: var(--clr-light);
     --background: var(--clr-dark);
+
+    --clr-notification: #152c6d;
 
     --theme-icon: '🌛︎';
 

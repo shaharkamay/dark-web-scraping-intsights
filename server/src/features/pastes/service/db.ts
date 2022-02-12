@@ -77,7 +77,7 @@ const upsertManyPastes = async (pastes: Paste[]) => {
 
 const searchMultipleQueries = async (queries: string[]) => {
   const params: Prisma.PasteFindManyArgs = {};
-  if (queries.length)
+  if (queries.length) {
     params.where = {
       OR: queries.map((query) => {
         return {
@@ -87,6 +87,17 @@ const searchMultipleQueries = async (queries: string[]) => {
         };
       }),
     };
+    params.where.OR = [
+      ...(params.where.OR as []),
+      ...queries.map((query) => {
+        return {
+          title: {
+            contains: query,
+          },
+        };
+      }),
+    ];
+  }
   params.include = {
     entities: true,
   };

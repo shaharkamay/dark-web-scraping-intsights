@@ -44,9 +44,12 @@ model Keyword {
 model Alert {
   id      Int      @id @unique @default(autoincrement())
   name    String   @db.VarChar(45)
-  keyword Keyword?
+  keywords Keyword[]
   Paste   Paste    @relation(fields: [pasteId], references: [id])
   pasteId String
+  date    DateTime @default(now())
+
+  @@unique([name, pasteId])
 }
 
 // model EntityValue {
