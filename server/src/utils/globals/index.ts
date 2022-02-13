@@ -1,5 +1,8 @@
-const countNewPastes: { count: number } = {
-  count: 0,
+import { Alert } from '@prisma/client';
+
+const global: { countNewPastes: number; newAlerts: Alert[] } = {
+  countNewPastes: 0,
+  newAlerts: [],
 };
 
 // const alerts: {
@@ -18,4 +21,4 @@ const countNewPastes: { count: number } = {
 // const keywords: string[] = [];
 // const keywordsLengthState = keywords.length; //0
 
-export { countNewPastes };
+export { global };

@@ -19,7 +19,8 @@ const insertKeyword = async (keyword: string | Keyword) => {
   // return await prisma.keyword.create({data: {name:keyword, alert}})
   const keywordQuery = typeof keyword === 'string' ? keyword : keyword.name;
   const pastes = await pastesService.db.searchMultipleQueries([keywordQuery]);
-  // console.log(pastes);
+  if (pastes.pastes.length === 0)
+    await prisma.keyword.create({ data: { name: keywordQuery, alertId: 0 } });
   for (const paste of pastes.pastes) {
     await prisma.keyword.create({
       data: {

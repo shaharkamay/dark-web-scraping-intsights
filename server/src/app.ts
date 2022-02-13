@@ -3,13 +3,14 @@ import cors from 'cors';
 import pastesRouter from './features/pastes/route';
 import keywordRouter from './features/keywords/route';
 import alertsRouter from './features/alerts/route';
-import sseRouter from './features/sse/route';
+// import sseRouter from './features/socket/route';
 import errorHandler from './utils/middleware/error-handling';
 import { render } from './utils/helpers/server';
 import pastesService from './features/pastes/service';
 import keywordsService from './features/keywords/service';
+import alertsService from './features/alerts/service';
 // import alertsService from './features/alerts/service';
-import { countNewPastes } from './utils/globals';
+import { global } from './utils/globals';
 import config from './utils/config';
 
 const app = express();
@@ -27,21 +28,16 @@ app.get('/alerts', render);
 app.use('/api/pastes', pastesRouter);
 app.use('/api/keywords', keywordRouter);
 app.use('/api/alerts', alertsRouter);
-app.use('/api/sse', sseRouter);
+// app.use('/api/sse', sseRouter);
 
 app.use(errorHandler);
 
 const autoInsert = async () => {
-  // console.log('before before');
-  // const date = new Date();
-  countNewPastes.count = (await pastesService.insertPastes()) || 0;
-  // console.log('new pastes: ' + countNewPastes.count);
+  const date = new Date();
+  global.countNewPastes = (await pastesService.insertPastes()) || 0;
   await keywordsService.upsertKeywords();
-  // console.log('after');
-  // const alerts = await alertsService.getAlertsAfterDate(date);
-  // console.log(alerts);
-  // console.log('new alerts: ' + alerts.length);
-  // console.log(countNewAlerts);
+  const alerts = await alertsService.getAlertsAfterDate(date);
+  global.newAlerts = alerts;
   console.log(`scraped at: ${new Date()}`);
   setTimeout(autoInsert, config.server.scrapeTime);
 };

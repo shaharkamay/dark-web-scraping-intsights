@@ -1,0 +1,66 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "referentialIntegrity"]
+  binaryTargets   = ["native", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Paste {
+  id       String   @id @unique(map: "id_UNIQUE") @db.VarChar(45)
+  author   String   @db.VarChar(225)
+  title    String   @db.VarChar(225)
+  content  String   @unique(map: "content_UNIQUE") @db.VarChar(768)
+  date     DateTime @db.DateTime(0)
+  entities Entity[]
+  alerts   Alert[]
+  // tags Tag[]
+}
+
+model Entity {
+  id      Int    @id @unique @default(autoincrement())
+  name    String @db.VarChar(45)
+  values  String @db.VarChar(225)
+  paste   Paste  @relation(fields: [pasteId], references: [id])
+  pasteId String
+
+  @@unique([name, pasteId])
+}
+
+model Keyword {
+  id      Int    @id @unique @default(autoincrement())
+  name    String @db.VarChar(45)
+  alert   Alert  @relation(fields: [alertId], references: [id])
+  alertId Int
+
+  @@unique([name, alertId])
+}
+
+model Alert {
+  id      Int      @id @unique @default(autoincrement())
+  name    String   @db.VarChar(45)
+  keywords Keyword[]
+  Paste   Paste    @relation(fields: [pasteId], references: [id])
+  pasteId String
+  date    DateTime @default(now())
+
+  @@unique([name, pasteId])
+}
+
+// model EntityValue {
+//   id Int @id @default(autoincrement()) @unique
+//   value String @db.VarChar(45)
+//   entity Entity @relation(fields: [entityId], references: [id])
+//   entityId Int
+// }
+
+// model Tag {
+//   id Int @id @default(autoincrement()) @unique
+//   name String @db.VarChar(45) @unique
+//   pastes Paste[]
+// }

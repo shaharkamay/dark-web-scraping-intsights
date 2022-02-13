@@ -14,3 +14,41 @@
   justify-content: center;
   gap: 1em;
 }
+
+.keywords-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.keyword {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  background-color: var(--clr-secondary);
+  border-radius: 50px;
+  padding: 0.2rem 0.5rem;
+  box-shadow: var(--shadow);
+
+  .keyword-name {
+    font-weight: bold;
+  }
+
+  .keyword-delete {
+    cursor: pointer;
+    color: #ff0000;
+    opacity: 0.5;
+    transition: 0.3s;
+    background: none;
+    border: none;
+
+    &:hover {
+      opacity: 1;
+      font-size: 1.1rem;
+      color: #ff0000;
+    }
+  }
+}

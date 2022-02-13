@@ -1,21 +1,24 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
 import { Alert as IAlert } from '../../@types';
-import { alertsNotificationState } from '../../recoil/alerts/atoms';
 
-export default function Alert({ alert }: { alert: IAlert }) {
-  const [notificationDate] = useRecoilState(alertsNotificationState);
+export default function Alert({
+  alert,
+  isNewAlert,
+}: {
+  alert: IAlert;
+  isNewAlert: boolean;
+}) {
   return (
     <div>
-      <div
-        className={`paste ${
-          notificationDate < new Date(alert.date) ? 'new-alert' : ''
-        }`}
-      >
-        <div className="paste__props">
-          <div className="paste__name">{alert.name}</div>
-          <div className="paste--footer">
-            <div className="paste__from">
+      <div className={`alert`}>
+        <div className="alert__props">
+          <div className="alert__props--header">
+            <div className="alert__title">{alert.name}</div>
+            {isNewAlert && <div className="new-alert">new</div>}
+          </div>
+          {/* <div className="alert__props--main"></div> */}
+          <div className="alert__props--footer">
+            <div className="alert-keywords">
               {alert.keywords.map((keyword) => (
                 <span key={keyword.name}>{keyword.name}</span>
               ))}
