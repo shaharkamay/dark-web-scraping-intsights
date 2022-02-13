@@ -8,15 +8,17 @@ const config = {
   },
   scrape: {
     url: 'http://strongerw2ise74v3duebgsvug4mehyhlpa7f6kfwnas7zofs3kov7yd.onion/all',
-    proxy: {
-      host: 'localhost',
-      port: 8118,
-    },
     interval: 120000,
   },
+  tor: {
+    proxy: {
+      host: 'tor-proxy',
+      port: 8118,
+    },
+  },
   ner: {
-    host: 'localhost',
-    port: 8080,
+    host: 'ner',
+    port: 443,
   },
   db: {
     url: process.env.DATABASE_URL,

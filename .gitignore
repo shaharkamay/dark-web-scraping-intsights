@@ -1,4 +1,5 @@
 node_modules
 build
 .env
-stanford-ner
+stanford-ner/*
+!stanford-ner/Dockerfile

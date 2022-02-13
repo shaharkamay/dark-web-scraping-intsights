@@ -11,7 +11,7 @@ import {
 
 const fetchDom = async (page = 1) => {
   const res = await axios.get(`${config.scrape.url}?page=${page}`, {
-    proxy: config.scrape.proxy,
+    proxy: config.tor.proxy,
   });
   return res.data;
 };
