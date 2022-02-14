@@ -5,13 +5,13 @@ import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import { themeState } from './recoil/theme/atom';
 import { routes } from './utils/globals';
-import { BASE_URL } from './network/axios';
+import { SOCKET_URL } from './network/axios';
 import { pastesState } from './recoil/pastes/atoms';
 import io, { Socket } from 'socket.io-client';
 import { Alert } from './@types';
 
 function App() {
-  const [pastes, setPastes] = useRecoilState(pastesState);
+  const [, setPastes] = useRecoilState(pastesState);
   const [theme] = useRecoilState(themeState);
 
   const socketRef = useRef<Socket>();
@@ -21,7 +21,7 @@ function App() {
       Notification.requestPermission();
     }
 
-    socketRef.current = io(BASE_URL, {
+    socketRef.current = io(SOCKET_URL, {
       transports: ['websocket'],
       path: '/socket',
     });

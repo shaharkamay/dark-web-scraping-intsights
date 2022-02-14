@@ -1,17 +1,20 @@
 import express from 'express';
 import cors from 'cors';
-import pastesRouter from './features/pastes/route';
-import keywordRouter from './features/keywords/route';
-import alertsRouter from './features/alerts/route';
-// import sseRouter from './features/socket/route';
 import errorHandler from './utils/middleware/error-handling';
-import { render } from './utils/helpers/server';
-import pastesService from './features/pastes/service';
-import keywordsService from './features/keywords/service';
-import alertsService from './features/alerts/service';
-// import alertsService from './features/alerts/service';
-import { global } from './utils/globals';
+import { render } from './utils/helpers';
 import config from './utils/config';
+import axios from 'axios';
+import { Alert } from './@types';
+
+const globals: {
+  countNewPastes: number;
+  lastAlertDate: Date;
+  newAlerts: Alert[];
+} = {
+  countNewPastes: 0,
+  lastAlertDate: new Date(),
+  newAlerts: [],
+};
 
 const app = express();
 
@@ -25,24 +28,30 @@ app.get('/', render);
 app.get('/keywords', render);
 app.get('/alerts', render);
 
-app.use('/api/pastes', pastesRouter);
-app.use('/api/keywords', keywordRouter);
-app.use('/api/alerts', alertsRouter);
-// app.use('/api/sse', sseRouter);
-
 app.use(errorHandler);
 
 const autoInsert = async () => {
   const date = new Date();
-  global.countNewPastes = (await pastesService.insertPastes()) || 0;
-  await keywordsService.upsertKeywords();
-  const alerts = await alertsService.getAlertsAfterDate(date);
-  global.newAlerts = alerts;
+  const fetchPastesResponse = await axios.get(
+    `http://${config.scraper.host}:${config.scraper.port}/api/scrape`
+  );
+  const newPastesResponse = await axios.post(
+    config.apiGateway.baseUrl + 'api/pastes',
+    { pastes: fetchPastesResponse.data }
+  );
+  globals.countNewPastes = newPastesResponse.data;
+  await axios.put(config.apiGateway.baseUrl + 'api/keywords');
+  const alertsResponse = await axios.get<Alert[]>(
+    config.apiGateway.baseUrl + `api/alerts?date=${date.toISOString()}`
+  );
+  if (alertsResponse.data && alertsResponse.data.length) {
+    globals.lastAlertDate = new Date(alertsResponse.data[0].date);
+    globals.newAlerts = alertsResponse.data;
+  }
   console.log(`scraped at: ${new Date()}`);
-  setTimeout(autoInsert, config.server.scrapeTime);
+  setTimeout(autoInsert, config.scraper.scrapeTime);
 };
 autoInsert();
 
 export default app;
-
-//natual base classifier machineClassify ner
+export { globals };

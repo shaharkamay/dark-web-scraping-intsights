@@ -2,7 +2,7 @@ import config from './utils/config';
 import app from './app';
 import socketIo from 'socket.io';
 import * as http from 'http';
-import socketController from './features/socket/controller';
+import socketController from './socket/socket.controller';
 
 const server = http.createServer(app);
 const io = new socketIo.Server(server, {

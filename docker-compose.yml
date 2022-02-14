@@ -34,15 +34,14 @@ services:
     networks:
       - backend
 
-  # app:
-  #   container_name: pastes
-  #   restart: always
-  #   build: .
-  #   ports:
-  #     - '8081:8081'
-  #   networks:
-  #     - frontend
-  #     - backend
+  app:
+    container_name: app
+    # restart: always
+    build: .
+    ports:
+      - '8081:8081'
+    networks:
+      - backend
 
   # ner:
   #   container_name: ner
