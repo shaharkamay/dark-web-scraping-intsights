@@ -23,6 +23,10 @@ p - 16px (footer)
   --foreground: var(--clr-dark);
   --background: var(--clr-light);
 
+  --clr-notification: #b4c8ff;
+
+  --shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+
   --theme-icon: '☀';
 
   --inverted: none;
@@ -70,6 +74,10 @@ img {
 
   --foreground: var(--clr-light);
   --background: var(--clr-dark);
+
+  --clr-notification: #152c6d;
+
+  /* --shadow: 0px 0px 20px rgba(255, 255, 255, 0.2); */
 
   --theme-icon: '🌛︎';
 
@@ -127,6 +135,10 @@ main {
 
     --foreground: var(--clr-light);
     --background: var(--clr-dark);
+
+    --clr-notification: #152c6d;
+
+    /* --shadow: 0px 0px 20px rgba(255, 255, 255, 0.2); */
 
     --theme-icon: '🌛︎';
 

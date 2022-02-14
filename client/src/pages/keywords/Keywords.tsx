@@ -46,18 +46,21 @@ const Keywords = () => {
           Add Keyword
         </button>
       </form>
-      {keywords.map((keyword) => (
-        <div key={keyword.name}>
-          {keyword.name}{' '}
-          <button
-            onClick={async () => {
-              handleDeleteKeyword(keyword.name);
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      ))}
+      <div className="keywords-list">
+        {keywords.map((keyword) => (
+          <div key={keyword.name} className="keyword">
+            <div className="keyword-name">{keyword.name}</div>
+            <button
+              className="keyword-delete"
+              onClick={async () => {
+                handleDeleteKeyword(keyword.name);
+              }}
+            >
+              ✖
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

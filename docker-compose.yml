@@ -1,25 +1,30 @@
 version: '3.9'
 services:
-  app:
-    container_name: pastes
-    restart: always
-    build: .
-    ports:
-      - '8081:8081'
-    networks:
-      - frontend
-      - backend
-
   ner:
     container_name: ner
-    build: ./server/src/utils/helpers/analysis/NER
+    build: ./ner
+    ports:
+      - '443:443'
+    networks:
+      - backend
+
+  stanford-ner:
+    container_name: stanford-ner
+    build: ./stanford-ner
     ports:
       - '8080:8080'
     networks:
-      - frontend
       - backend
 
-  darknet:
+  scraper:
+    container_name: scraper
+    build: ./scraper
+    ports:
+      - '80:80'
+    networks:
+      - backend
+
+  tor-proxy:
     image: dperson/torproxy
     container_name: tor-proxy
     ports:
@@ -27,11 +32,39 @@ services:
     expose:
       - 8118
     networks:
-      - frontend
       - backend
 
+  app:
+    container_name: app
+    # restart: always
+    build: .
+    ports:
+      - '8081:8081'
+    networks:
+      - backend
+
+  # ner:
+  #   container_name: ner
+  #   build: ./server/src/utils/helpers/analysis/NER
+  #   ports:
+  #     - '8080:8080'
+  #   networks:
+  #     - frontend
+  #     - backend
+
+  # darknet:
+  #   image: dperson/torproxy
+  #   container_name: tor-proxy
+  #   ports:
+  #     - '8118:8118'
+  #   expose:
+  #     - 8118
+  #   networks:
+  #     - frontend
+  #     - backend
+
 networks:
-  frontend:
-    driver: bridge
+  # frontend:
+  #   driver: bridge
   backend:
     driver: bridge

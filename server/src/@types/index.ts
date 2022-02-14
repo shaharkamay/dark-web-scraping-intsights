@@ -1,5 +1,9 @@
-// import { Concept } from 'concepts-parser';
-import { Entities } from 'ner';
+export interface Alert {
+  id: number;
+  name: string;
+  pasteId: string;
+  date: Date;
+}
 
 export interface Paste {
   id: string;
@@ -7,15 +11,10 @@ export interface Paste {
   title: string;
   content: string;
   date: Date;
-  entities?: Entities;
 }
 
-// export interface PasteWithEntities extends Paste {
-//   entities?: Concept[];
-// }
-
-export enum DefaultAuthor {
-  Anonymous = 'Anonymous',
-  Guest = 'Guest',
-  Unknown = 'Unknown',
+export interface PastesResponse {
+  count: number;
+  pastes: Paste[];
+  page: number;
 }

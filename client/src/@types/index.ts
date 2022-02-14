@@ -56,7 +56,8 @@ export interface Keyword {
 export interface Alert {
   id: number;
   name: string;
-  keyword?: Keyword;
+  keywords: Keyword[];
+  date: Date;
 }
 
 export type HslString = `hsl(${number}, ${number}%, ${number}%)`;
