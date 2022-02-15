@@ -11,7 +11,7 @@ RUN cd ../
 
 #copy client/build to server
 # COPY ./client/build server/client
-# WORKDIR /usr/src/app
+WORKDIR /usr/src/app
 
 #run server
 COPY ./server /server

@@ -1,20 +1,24 @@
 import React, { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import { Routes, BrowserRouter } from 'react-router-dom';
+import { Routes, BrowserRouter, Route } from 'react-router-dom';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import { themeState } from './recoil/theme/atom';
-import { routes } from './utils/globals';
 import { SOCKET_URL } from './network/axios';
 import { pastesState } from './recoil/pastes/atoms';
 import io, { Socket } from 'socket.io-client';
 import { Alert } from './@types';
+import Dashboard from './pages/dashboard/Dashboard';
+import Keywords from './pages/keywords/Keywords';
+import Alerts from './pages/alerts/Alerts';
+import { alertsNotificationState } from './recoil/alerts/atoms';
 
 function App() {
   const [, setPastes] = useRecoilState(pastesState);
   const [theme] = useRecoilState(themeState);
+  const [notificationDate] = useRecoilState(alertsNotificationState);
 
-  const socketRef = useRef<Socket>();
+  const socketRef = useRef<Socket>() as { current: Socket };
 
   useEffect(() => {
     if (Notification.permission === 'default') {
@@ -28,6 +32,7 @@ function App() {
 
     socketRef.current.on('connect', () => {
       console.log('Socket Has Connected');
+      socketRef.current.emit('left-alerts', { date: notificationDate });
     });
 
     socketRef.current.on('disconnect', () => {
@@ -35,7 +40,6 @@ function App() {
     });
 
     socketRef.current.on('pastes', (pastes) => {
-      console.log(pastes);
       setPastes(pastes);
     });
 
@@ -57,26 +61,6 @@ function App() {
         }
       }
     });
-
-    // source.onopen = () => {
-    //   console.log('Connected to SSE');
-    // };
-    // source.onmessage = (event) => {
-    //   const data = JSON.parse(event.data);
-    //   if ('pastes' in data) {
-    //     setPastes(data.pastes);
-    //     console.log(data);
-    //   }
-    //   if ('alerts' in data) {
-    //     console.log(data.alerts);
-    //     if (Notification.permission === 'granted') {
-    //       new Notification('A new alert', {
-    //         body: 'You have got a new alert, check it out!',
-    //         icon: './favicon.ico',
-    //       });
-    //     }
-    //   }
-    // };
   }, []);
 
   return (
@@ -84,7 +68,15 @@ function App() {
       <BrowserRouter>
         <Header />
         <main>
-          <Routes>{routes && routes.map((route) => route.element)}</Routes>
+          <Routes>
+            <Route key="/" path="/" element={<Dashboard />} />
+            <Route key="keywords" path="/keywords" element={<Keywords />} />
+            <Route
+              key="alerts"
+              path="/alerts"
+              element={<Alerts socket={socketRef.current} />}
+            />
+          </Routes>
         </main>
         <Footer />
       </BrowserRouter>

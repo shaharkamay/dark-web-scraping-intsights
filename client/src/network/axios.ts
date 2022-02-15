@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Alert, Keyword, PastesResponse } from '../@types';
 
 export const BASE_URL =
-  'https://yp5obhxoa4.execute-api.eu-central-1.amazonaws.com/';
+  'https://xld7tt24da.execute-api.eu-central-1.amazonaws.com/';
 export const SOCKET_URL = 'http://localhost:8081/';
 
 export const getPastes = async (page = 1, query: string | null = null) => {

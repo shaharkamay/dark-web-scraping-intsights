@@ -1,7 +1,5 @@
 import React from 'react';
-// import { useRecoilState } from 'recoil';
 import { PastesResponse } from '../@types';
-// import { pagesState } from '../recoil/pastes/atoms';
 
 export default function Pagination({
   pastes,

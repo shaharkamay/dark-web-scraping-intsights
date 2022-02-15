@@ -6,43 +6,23 @@ import { isPastesLoadingState, pastesState } from '../../recoil/pastes/atoms';
 import Paste from './Paste';
 import { PastesResponse } from '../../@types';
 import { debouncedFetchData } from '../../network/debounce-fetch';
-// import { BASE_URL } from '../../network/axios';
 import TextInput from '../../components/TextInput';
-// import { alertsState } from '../../recoil/alerts/atoms';
-
-// const source = new EventSource(BASE_URL + 'sse');
 
 const Dashboard = () => {
   const [pastes, setPastes] = useRecoilState(pastesState);
   const [query, setQuery] = useState('');
   const [isLoading, setIsLoading] = useRecoilState(isPastesLoadingState);
-  // const [, setAlerts] = useRecoilState(alertsState);
 
   useEffect(() => {
-    // source.onopen = () => {
-    //   console.log('Connected to SSE');
-    // };
-    // source.onmessage = (event) => {
-    //   if (query === '') {
-    //     const data = JSON.parse(event.data);
-    //     if ('pastes' in data) {
-    //       setPastes(data.pastes);
-    //       console.log(data);
-    //     }
-    //     // console.log(event);
-    //   }
-    // };
-
     setPastes({ ...pastes, page: 1 });
   }, [query]);
 
   useEffect(() => {
     setIsLoading(true);
     debouncedFetchData(query, pastes.page, (res: PastesResponse) => {
-      console.log(pastes.page);
       setPastes(res);
       setIsLoading(false);
-      console.log('fetched');
+      console.log('fetched pastes');
     });
   }, [pastes.page, query]);
   return (

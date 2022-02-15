@@ -9,8 +9,15 @@ export const handler: ProxyHandler = async (event) => {
   const count = (await deleteKeyword(keyword)).count;
 
   return {
-    statusCode: 204,
-    body: JSON.stringify(count),
+    statusCode: 200,
+    body: count.toString(),
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
+    },
   };
 };
 

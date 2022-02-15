@@ -10,7 +10,7 @@ import {
 } from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
-import { Function } from 'aws-cdk-lib/aws-lambda';
+
 dotenv.config();
 
 export class CdkStack extends Stack {
@@ -244,6 +244,18 @@ export class CdkStack extends Stack {
     });
 
     const pastes = api.root.addResource('pastes');
+    pastes.addCorsPreflight({
+      allowOrigins: Cors.ALL_ORIGINS,
+      allowMethods: ['OPTIONS', 'POST', 'GET', 'PUT', 'DELETE'],
+      allowHeaders: [
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key',
+        'X-Amz-Security-Token',
+      ],
+      statusCode: 200,
+    });
 
     pastes.addMethod(
       'GET',
@@ -259,6 +271,18 @@ export class CdkStack extends Stack {
     );
 
     const alerts = api.root.addResource('alerts');
+    alerts.addCorsPreflight({
+      allowOrigins: Cors.ALL_ORIGINS,
+      allowMethods: ['OPTIONS', 'POST', 'GET', 'PUT', 'DELETE'],
+      allowHeaders: [
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key',
+        'X-Amz-Security-Token',
+      ],
+      statusCode: 200,
+    });
 
     alerts.addMethod(
       'GET',
@@ -268,6 +292,18 @@ export class CdkStack extends Stack {
     );
 
     const keywords = api.root.addResource('keywords');
+    keywords.addCorsPreflight({
+      allowOrigins: Cors.ALL_ORIGINS,
+      allowMethods: ['OPTIONS', 'POST', 'GET', 'PUT', 'DELETE'],
+      allowHeaders: [
+        'Content-Type',
+        'X-Amz-Date',
+        'Authorization',
+        'X-Api-Key',
+        'X-Amz-Security-Token',
+      ],
+      statusCode: 200,
+    });
 
     keywords.addMethod(
       'GET',
