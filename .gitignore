@@ -3,3 +3,4 @@ build
 .env
 stanford-ner/*
 !stanford-ner/Dockerfile
+!stanford-ner/ner-server.sh

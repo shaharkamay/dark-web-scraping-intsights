@@ -20,9 +20,6 @@ const config = {
     host: 'ner',
     port: 443,
   },
-  db: {
-    url: process.env.DATABASE_URL,
-  },
 };
 
 export default config;
