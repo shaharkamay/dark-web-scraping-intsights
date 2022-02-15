@@ -28,14 +28,25 @@ A scraping, analysis and presentation platform to one of the most hideous places
 
 ## Usage
 
-1. Download Stanford Named Entity Recognizer version 4.x.x from [this link](https://nlp.stanford.edu/software/CRF-NER.shtml#:~:text=Download%20Stanford%20Named%20Entity%20Recognizer%20version%204.2.0), then extract the folder and copy all the files inside the folder, to this project's `stanford-ner` folder (keep the `ner-server` and `Dockerfile` inside as well).
-2. Add `.env` file to `server` folder and define the database url:
+1. Clone this repo.
+2. Download Stanford Named Entity Recognizer version 4.x.x from [this link](https://nlp.stanford.edu/software/CRF-NER.shtml#:~:text=Download%20Stanford%20Named%20Entity%20Recognizer%20version%204.2.0), then extract the folder and copy all the files inside the folder, to this project's `stanford-ner` folder (keep the `ner-server` and `Dockerfile` inside as well).
+3. Add `.env` file to `server` folder and define the database url:
    - `DATABASE_URL=<database_connection_string>`
-3. To use the cdk add the same `.env` file inside `serverless/cdk`.
-4. run the command:
+4. To use the cdk add the same `.env` file inside `serverless/cdk`.
+5. run the command:
 
    ```
    docker-compose up --build
    ```
 
-5. Open [http://localhost:8081/](http://localhost:8081/) to open the app.
+6. Open [http://localhost:8081/](http://localhost:8081/) to open the app.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
