@@ -22,9 +22,9 @@ A scraping, analysis and presentation platform to one of the most hideous places
 
 ## Requirements
 
-1. [Stanford NER](https://nlp.stanford.edu/software/CRF-NER.shtml#:~:text=Download%20Stanford%20Named%20Entity%20Recognizer%20version%204.2.0)
-2. [Docker](https://docs.docker.com/get-docker/)
-3. [Docker-Compose](https://docs.docker.com/compose/install/)
+- [Stanford NER](https://nlp.stanford.edu/software/CRF-NER.shtml#:~:text=Download%20Stanford%20Named%20Entity%20Recognizer%20version%204.2.0)
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker-Compose](https://docs.docker.com/compose/install/)
 
 ## Usage
 
