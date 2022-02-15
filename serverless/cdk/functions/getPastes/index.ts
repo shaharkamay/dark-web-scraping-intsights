@@ -8,13 +8,16 @@ export const handler: ProxyHandler = async (event) => {
   const query = event.queryStringParameters?.query || null;
 
   const pastes = await getPastes(page, query);
-  console.log(pastes.pastes.length);
+
   return {
     statusCode: 200,
     body: JSON.stringify(pastes),
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
     },
   };
 };

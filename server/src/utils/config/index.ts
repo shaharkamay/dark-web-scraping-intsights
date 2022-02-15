@@ -11,7 +11,7 @@ const config = {
     scrapeTime: 120000,
   },
   apiGateway: {
-    baseUrl: 'https://yp5obhxoa4.execute-api.eu-central-1.amazonaws.com/',
+    baseUrl: 'https://xld7tt24da.execute-api.eu-central-1.amazonaws.com/',
   },
 };
 

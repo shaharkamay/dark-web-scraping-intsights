@@ -17,7 +17,6 @@ const Keywords = () => {
   const handleAddKeyword: FormEventHandler = async (e) => {
     e.preventDefault();
     if (keywords.findIndex((k) => k.name === keyword) === -1) {
-      // setKeywords((keywords) => [...keywords, keyword]);
       await sendKeyword(keyword);
       getKeywords().then((res) => {
         if (res) setKeywords(res);

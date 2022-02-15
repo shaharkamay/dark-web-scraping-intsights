@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { Socket } from 'socket.io-client';
 import { Alert as IAlert } from '../../@types';
 import '../../assets/styles/alerts.scss';
 import { getAlerts } from '../../network/axios';
@@ -7,7 +8,7 @@ import { alertsNotificationState } from '../../recoil/alerts/atoms';
 import { useQuery } from '../../utils/alerts/helpers';
 import Alert from './Alert';
 
-const Alerts = () => {
+const Alerts = ({ socket }: { socket: Socket }) => {
   const query = useQuery();
   const [alerts, setAlerts] = useState<IAlert[]>([]);
   const [notificationDate, setNotificationDate] = useRecoilState(
@@ -22,7 +23,9 @@ const Alerts = () => {
       if (res) setAlerts(res);
     });
     return () => {
-      setNotificationDate(new Date());
+      const date = new Date();
+      setNotificationDate(date);
+      socket.emit('left-alerts', { date });
     };
   }, []);
 

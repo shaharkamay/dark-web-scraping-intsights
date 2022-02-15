@@ -12,6 +12,9 @@ export const handler: ProxyHandler = async () => {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers':
+        'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE',
     },
   };
 };
@@ -31,7 +34,6 @@ const upsertKeywords = async () => {
 };
 
 const insertKeyword = async (keyword: string | Keyword) => {
-  // return await prisma.keyword.create({data: {name:keyword, alert}})
   const keywordQuery = typeof keyword === 'string' ? keyword : keyword.name;
   const pastes = await searchMultipleQueries([keywordQuery]);
   if (pastes.pastes.length === 0)

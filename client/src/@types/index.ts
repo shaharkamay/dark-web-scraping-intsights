@@ -1,5 +1,3 @@
-import { ReactElement } from 'react';
-
 export interface Paste {
   id: string;
   author: string;
@@ -16,35 +14,15 @@ interface Entity {
   pasteId: string;
 }
 
-// export interface PasteWithEntities extends Paste {
-//   entities?: Concept[];
-// }
-
 export interface PastesResponse {
   count: number;
   pastes: Paste[];
   page: number;
 }
 
-// interface Concept {
-//   value?: string;
-//   index: number;
-//   lang: string;
-//   atonicValue: string;
-//   countWords: number;
-// }
-
-// export interface Entity {
-//   start: number;
-//   end: number;
-//   type: string;
-//   text: string;
-// }
-
 export interface IRoute {
   name: string;
   path: string;
-  element: ReactElement | null;
 }
 
 export interface Keyword {

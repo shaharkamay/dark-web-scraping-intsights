@@ -2,7 +2,6 @@ import axios from 'axios';
 import { JSDOM } from 'jsdom';
 import { DefaultAuthor, Entities, PasteWithEntities } from './@types';
 import config from './utils/config';
-// import NERQuery from '../../../utils/helpers/analysis/NER';
 import {
   withTimeoutPromise,
   cropAuthorAndDate,

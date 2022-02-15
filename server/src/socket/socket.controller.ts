@@ -3,12 +3,16 @@ import { Socket } from 'socket.io';
 import { io } from '../index';
 import axios from 'axios';
 import { PastesResponse } from '../@types';
-import { globals } from '../app';
+import { globals } from '../utils/helpers';
 
-const socketController = (_socket: Socket) => {
-  console.log('connected to socket');
+const socketController = (socket: Socket) => {
   io.on('open', (open: string) => {
+    console.log('connected to socket');
     console.log(open);
+  });
+
+  socket.on('left-alerts', ({ date }: { date: string }) => {
+    globals.lastAlertDate = new Date(date);
   });
 
   const sendPastes = async () => {
@@ -22,7 +26,7 @@ const socketController = (_socket: Socket) => {
 
   const sendAlerts = async () => {
     io.emit('alerts', globals.newAlerts);
-    console.log('sent alerts through sse');
+    console.log('sent alerts through socket');
   };
 
   setInterval(() => {
